@@ -1,0 +1,12 @@
+const routes = require("express").Router()
+const userController = require("../controllers/UserController")
+routes.post("/user",userController.signup)
+routes.post("/user/login",userController.login)
+routes.get("/users",userController.getAllUsers)
+//routes.post("/users",userController.addUsers)
+routes.post("/users",userController.addUser1)
+routes.delete("/users/:id",userController.deleteUsers)
+routes.get("/users/:id",userController.getUsersById)
+routes.post("/user/forgotpassword", userController.forgotPassword)
+routes.post("/user/resetpassword", userController.resetpassword)
+module.exports = routes

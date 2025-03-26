@@ -1,0 +1,10 @@
+const routes = require('express').Router();
+const parkingController = require('../controllers/ParkingController');
+routes.post('/addparking', parkingController.addParking);
+routes.get('/getallparking', parkingController.getAllParkings);
+routes.get('/getParkingbyuserId/:userId', parkingController.getAllParkingsByUserId);
+routes.post('/addwithFile', parkingController.addParkingwithFile);
+routes.put("/updateparking/:id", parkingController.updateParking);
+routes.get("/getParkingById/:id",parkingController.getParkingById);
+routes.get("/getparkingbyarea/:areaId",parkingController.getParkingByAreaId);
+module.exports = routes;
