@@ -52,5 +52,47 @@ const getReservationsByUserId = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+const updateReservation = async (req, res) => {
+  try {
+    const updatedReservation = await reservationModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
 
-module.exports = { addReservation, getAllReservations, getReservationsByUserId };
+    if (!updatedReservation) {
+      return res.status(404).json({ message: "Reservation not found" });
+    }
+
+    res.status(200).json({
+      message: "Reservation updated successfully",
+      data: updatedReservation,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Error while updating reservation",
+      error: err.message,
+    });
+  }
+};
+const getReservationById = async (req, res) => {
+  try {
+    const reservation = await reservationModel.findById(req.params.id).populate("userId parkingId");
+    
+    if (!reservation) {
+      return res.status(404).json({ message: "Reservation not found" });
+    }
+
+    res.status(200).json({
+      message: "Reservation retrieved successfully",
+      data: reservation,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Error fetching reservation",
+      error: err.message,
+    });
+  }
+};
+
+module.exports = { addReservation, getAllReservations, getReservationsByUserId , updateReservation, getReservationById};
