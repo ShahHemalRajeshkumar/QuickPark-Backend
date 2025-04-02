@@ -1,10 +1,23 @@
 const reservationModel = require("../models/ReservationModel");
-
+const parkingModel = require("../models/ParkingModel");
 
 const addReservation = async (req, res) => {
   try {
     const savedReservation = await reservationModel.create(req.body);
-    //update..
+
+    const parking = await parkingModel.findById(req.body.parkingId);
+
+    if (!parking) {
+      return res.status(404).json({ message: "Parking not found" });
+    }
+
+    if (parking.availableSpaces > 0) {
+      parking.availableSpaces -= 1;
+      await parking.save();
+    } else {
+      return res.status(400).json({ message: "No available parking slots" });
+    }
+
     res.status(201).json({
       message: "Reservation added successfully",
       data: savedReservation,
@@ -19,7 +32,7 @@ const getAllReservations = async (req, res) => {
   try {
     const reservations = await reservationModel
       .find()
-      .populate("userId parkingId vehicleId");
+      .populate("userId").populate("vehicleId").populate("parkingId");
 
     if (reservations.length === 0) {
       res.status(404).json({ message: "No reservations found" });
