@@ -7,4 +7,6 @@ routes.post('/addwithFile', parkingController.addParkingwithFile);
 routes.put("/updateparking/:id", parkingController.updateParking);
 routes.get("/getParkingById/:id",parkingController.getParkingById);
 routes.get("/getparkingbyarea/:areaId",parkingController.getParkingByAreaId);
+routes.get('/defaultparking',parkingController.getDefaultParkings);
+routes.delete("/parking/:id", parkingController.deleteParking);
 module.exports = routes;

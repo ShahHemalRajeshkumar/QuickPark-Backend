@@ -107,5 +107,24 @@ const getReservationById = async (req, res) => {
     });
   }
 };
+const deleteReservation = async (req, res) => {
+  try {
+    const deletedReservation = await reservationModel.findByIdAndDelete(req.params.id);
 
-module.exports = { addReservation, getAllReservations, getReservationsByUserId , updateReservation, getReservationById};
+    if (!deletedReservation) {
+      return res.status(404).json({ message: "Reservation not found" });
+    }
+
+    res.status(200).json({
+      message: "Reservation deleted successfully",
+      data: deletedReservation,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Error deleting reservation",
+      error: err.message,
+    });
+  }
+};
+
+module.exports = { addReservation, getAllReservations, getReservationsByUserId , updateReservation, getReservationById, deleteReservation};

@@ -43,14 +43,14 @@ const parkingSchema = new Schema({
         enum: ["Open", "Covered", "Underground", "Multi-level"],
         required: true
     },
-    parkingURL:{
-        type: String,
-        required: true
-    },
+     parkingURL:{
+         type: String,
+         required: true
+     },
     userId:{
         type: Schema.Types.ObjectId,
         ref: 'users',
-        required: true
+        // required: true
     }
     
 }, {timestamps: true});

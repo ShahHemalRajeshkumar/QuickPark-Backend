@@ -132,4 +132,32 @@ const addParking = async (req, res) => {
       });
     }
   };
-  module.exports = { addParking, getAllParkings, addParkingwithFile, getAllParkingsByUserId, getParkingById, updateParking, getParkingByAreaId };
+  const getDefaultParkings = async (req, res) => {
+    try {
+      const defaults = await parkingModel.find().limit(4); 
+      res.status(200).json({ message: "Default parkings fetched successfully", data: defaults });
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching default parkings" });
+    }
+  };
+  const deleteParking = async (req, res) => {
+    try {
+      const deletedParking = await parkingModel.findByIdAndDelete(req.params.id);
+  
+      if (!deletedParking) {
+        return res.status(404).json({ message: "Parking not found" });
+      }
+  
+      res.status(200).json({
+        message: "Parking deleted successfully",
+        data: deletedParking,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: "Error deleting parking",
+        error: err.message,
+      });
+    }
+  };
+  
+  module.exports = { addParking, getAllParkings, addParkingwithFile, getAllParkingsByUserId, getParkingById, updateParking, getParkingByAreaId,getDefaultParkings, deleteParking };
